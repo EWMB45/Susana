@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Susana Suárez: Perfil Profesional Orgánico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF3E0; /* Very light orange/cream for a warm background */
+            color: #343A40; /* Darker text for contrast */
+            overflow-x: hidden; /* Prevent horizontal scroll due to shapes */
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #424242; /* Dark Gray for main titles */
+        }
+        .section-header {
+            position: relative;
+            z-index: 10;
+            padding-bottom: 2rem;
+        }
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 6px; /* Slightly thicker */
+            background-color: #FF9800; /* Vibrant Orange for emphasis */
+            border-radius: 9999px; /* Fully rounded pill shape */
+        }
+        .organic-panel {
+            background-color: white;
+            /* Complex border-radius for organic, blob-like shapes */
+            border-radius: 40% 60% 70% 30% / 60% 40% 30% 70%;
+            box-shadow: 0 18px 36px rgba(0,0,0,0.1); /* Stronger, softer shadow */
+            padding: 3.5rem; /* Increased padding */
+            margin-bottom: 3.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        }
+        .organic-panel:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        .chart-container-wrapper { /* New wrapper for chart to apply organic shape */
+            background-color: white;
+            /* Complex border-radius for organic, blob-like shapes */
+            border-radius: 50% 30% 40% 60% / 30% 60% 50% 40%;
+            box-shadow: 0 18px 36px rgba(0,0,0,0.1);
+            padding: 3rem; /* Increased padding */
+            margin: 0 auto;
+            max-width: 750px; /* Wider for charts */
+            height: 450px; /* Adjusted height */
+            max-height: 550px;
+            display: flex; /* To center canvas inside */
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .chart-canvas { /* Actual canvas element */
+            width: 100% !important;
+            height: 100% !important;
+        }
+        @media (min-width: 768px) {
+            .chart-container-wrapper {
+                height: 500px;
+            }
+        }
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .timeline-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .timeline-event-card {
+            background-color: white;
+            /* Complex border-radius for organic, blob-like shapes */
+            border-radius: 30% 70% 50% 50% / 70% 30% 60% 40%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            padding: 3rem; /* Increased padding */
+            transition: transform 0.3s ease;
+        }
+        .timeline-event-card:hover {
+            transform: translateY(-5px);
+        }
+        .timeline-dot-connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+            position: relative;
+            z-index: 10;
+        }
+        .timeline-dot {
+            width: 35px; /* Slightly larger dot */
+            height: 35px;
+            background-color: #FF9800; /* Vibrant Orange */
+            border: 6px solid #E65100; /* Deep Orange border */
+            border-radius: 50%;
+            z-index: 20;
+        }
+        .icon-circle-large {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 65px; /* Slightly larger icon circles */
+            height: 65px;
+            border-radius: 50%;
+            background-color: #FFF3E0; /* Very light orange/cream for icons */
+            color: #E65100; /* Deep Orange icon color */
+            font-size: 2.5rem; /* Larger icon font */
+            flex-shrink: 0;
+            margin-right: 1.5rem;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+        .human-section-bg {
+            background: linear-gradient(135deg, #FFCC80 0%, #FFD700 100%); /* Lighter, subtle orange gradient */
+            /* Complex border-radius for organic, blob-like shapes */
+            border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.07);
+            padding: 4.5rem; /* More padding for a lighter feel */
+            position: relative;
+            z-index: 1;
+        }
+        /* No straight lines for timeline, rely on spacing and rounded cards */
+
+        /* Client Bubbles Specific Styles */
+        .client-bubble-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem; /* Space between bubbles */
+            padding: 2rem;
+        }
+        .client-bubble {
+            background-color: #FFECB3; /* Light orange background for bubbles */
+            border-radius: 50%; /* Perfect circles */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem; /* Base padding */
+        }
+        .client-bubble:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+        .client-bubble.size-small {
+            width: 120px;
+            height: 120px;
+            font-size: 0.85rem;
+            background-color: #FFECB3; /* Lightest orange */
+        }
+        .client-bubble.size-medium {
+            width: 150px;
+            height: 150px;
+            font-size: 0.95rem;
+            background-color: #FFD54F; /* Medium orange */
+        }
+        .client-bubble.size-large {
+            width: 180px;
+            height: 180px;
+            font-size: 1.05rem;
+            background-color: #FFB300; /* Darker orange */
+        }
+        .client-bubble-name {
+            font-weight: 600;
+            color: #424242; /* Dark gray for name */
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+        .client-bubble-detail {
+            font-size: 0.75rem;
+            color: #616161; /* Medium gray for detail */
+            line-height: 1.1;
+            font-weight: 500; /* Make rubro slightly bolder */
+        }
+        .client-bubble.industry-construccion { background-color: #FFD54F; } /* Medium orange */
+        .client-bubble.industry-industria { background-color: #FFB300; } /* Darker orange */
+        .client-bubble.industry-inmobiliario { background-color: #FFE082; } /* Lighter orange */
+        .client-bubble.industry-turismo { background-color: #FFCC80; } /* Slightly more reddish orange */
+        .client-bubble.industry-servicios-publicos { background-color: #FFAB40; } /* More vibrant orange */
+        .client-bubble.industry-energia { background-color: #FF9800; } /* Main orange */
+        .client-bubble.industry-quimico { background-color: #FFAB40; } /* Another vibrant orange for new industry */
+
+        @media (max-width: 640px) {
+            .client-bubble.size-small { width: 100px; height: 100px; font-size: 0.75rem; }
+            .client-bubble.size-medium { width: 130px; height: 130px; font-size: 0.85rem; }
+            .client-bubble.size-large { width: 160px; height: 160px; font-size: 0.95rem; }
+        }
+
+        /* Section Highlighting Styles */
+        .academic-section-highlight {
+            background-color: #FFECB3; /* Lighter orange for academic section */
+            border-radius: 4rem; /* Match organic panel radius */
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .professional-section-highlight {
+            background-color: #FFD54F; /* Medium orange for professional section */
+            border-radius: 4rem; /* Match organic panel radius */
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .human-section-highlight {
+            background: linear-gradient(135deg, #FF9800 0%, #E65100 100%); /* Stronger orange gradient for human section */
+            border-radius: 4rem; /* Match organic panel radius */
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.07);
+        }
+    </style>
+</head>
+<body class="text-[#343A40]">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <header class="text-center mb-16 relative z-10">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-[#424242] mb-3 leading-tight">Susana Suárez</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-[#E65100]">Una Profesional Integral: Visión, Liderazgo y Compromiso</h2>
+            <p class="text-lg text-gray-600 mt-4 max-w-4xl mx-auto leading-relaxed">Explora el perfil de una experta en prevención de riesgos, cuya trayectoria combina una sólida formación académica con una impresionante capacidad de gestión y un profundo sentido humano.</p>
+        </header>
+
+        <main class="space-y-20">
+
+            <section id="academic-section" class="relative z-10 academic-section-highlight">
+                <div class="section-header text-center mb-14">
+                    <h3 class="text-3xl md:text-4xl font-bold">Lo Académico</h3>
+                    <p class="text-md text-gray-600 mt-2 max-w-2xl mx-auto">Un viaje de aprendizaje continuo que forjó sus bases en la seguridad y la ingeniería, con reconocimiento oficial en Uruguay.</p>
+                </div>
+                <div class="timeline-grid">
+                    <div class="timeline-event-card">
+                        <h2 class="text-xl font-bold text-[#FF9800]">2017</h2>
+                        <h3 class="text-lg font-semibold mt-1 text-[#424242]">Tecnicatura en Prevencionista en Seguridad Industrial</h3>
+                        <p class="text-sm text-gray-700 mt-2 leading-snug">Concluye su formación de 3 años, habilitándola para la identificación, evaluación y control de riesgos laborales en entornos industriales, sentando las bases de su especialización.</p>
+                        <p class="mt-2 text-xs font-semibold text-gray-500">Expedida por ANEP - UTU</p>
+                    </div>
+                    <div class="timeline-dot-connector md:hidden"><div class="timeline-dot"></div></div> <!-- Connector for mobile -->
+
+                    <div class="timeline-event-card">
+                        <h2 class="text-xl font-bold text-[#FF9800]">2023</h2>
+                        <h3 class="text-lg font-semibold mt-1 text-[#424242]">Ingeniera Tecnológica Prevencionista</h3>
+                        <p class="text-sm text-gray-700 mt-2 leading-snug">Un salto cualitativo en su carrera, aplicando principios avanzados de ingeniería para el diseño y la gestión integral de la prevención de riesgos, con mayor autonomía y responsabilidad.</p>
+                        <p class="mt-2 text-xs font-semibold text-gray-500">Otorgado por ANEP - UTU</p>
+                    </div>
+                    <div class="timeline-dot-connector md:hidden"><div class="timeline-dot"></div></div> <!-- Connector for mobile -->
+
+                    <div class="timeline-event-card">
+                        <h2 class="text-xl font-bold text-[#FF9800]">2024</h2>
+                        <h3 class="text-lg font-semibold mt-1 text-[#424242]">Especialista en Seguridad Vial Organizacional</h3>
+                        <p class="text-sm text-gray-700 mt-2 leading-snug">Su más reciente especialización, enfocada en la gestión estratégica de la seguridad del tránsito, abarcando planificación, normativa y educación vial en contextos organizacionales.</p>
+                        <p class="mt-2 text-xs font-semibold text-gray-500">Conferido por ANEP - UTU</p>
+                    </div>
+                </div>
+
+                <div class="chart-container-wrapper mt-16">
+                    <h3 class="absolute top-10 left-1/2 -translate-x-1/2 text-2xl md:text-3xl font-bold text-center text-[#424242] z-20">Evolución</h3>
+                    <p class="absolute top-24 left-1/2 -translate-x-1/2 text-center text-gray-600 text-xs max-w-xs mx-auto z-20">Este gráfico ilustra la progresión en el nivel de complejidad y responsabilidad de sus titulaciones.</p>
+                    <canvas id="competencyLevelChart" class="chart-canvas"></canvas>
+                </div>
+            </section>
+
+            <section id="professional-section" class="relative z-10 professional-section-highlight">
+                <div class="section-header text-center mb-14">
+                    <h3 class="text-3xl md:text-4xl font-bold">Lo Laboral</h3>
+                    <p class="text-md text-gray-600 mt-2 max-w-2xl mx-auto">Una profesional con una <em>capacidad de trabajo brutal</em>, demostrada en cada proyecto y cada gestión.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-stretch">
+                    <div class="organic-panel flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-xl font-bold text-[#424242] mb-5">Gestión de Proyectos a Gran Escala</h4>
+                            <div class="flex items-center mb-6">
+                                <div class="icon-circle-large"></div> <!-- Removed icon content -->
+                                <div class="ml-2">
+                                    <p class="text-6xl font-extrabold text-[#E65100] leading-none">120+</p> <!-- Deep Orange for numbers -->
+                                    <p class="text-gray-700 text-lg font-semibold">Empresas por mes</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 text-base leading-relaxed">Susana gestiona una cartera impresionante de más de 120 empresas mensualmente en su área de conocimiento. Esta capacidad multifuncional es testimonio de su <em>eficiencia, organización y liderazgo</em>. Su habilidad para equilibrar múltiples demandas y entregar resultados excepcionales la distingue en el sector.</p>
+                        </div>
+                    </div>
+
+                    <div class="organic-panel flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-xl font-bold text-[#424242] mb-5">Especializaciones Clave y Normativas ISO</h4>
+                            <ul class="list-none space-y-6">
+                                <li class="flex items-start">
+                                    <div class="icon-circle-large"></div> <!-- Empty circle -->
+                                    <div class="ml-3 flex-1">
+                                        <p class="font-semibold text-[#424242] text-lg">Experta en Seguridad para Izajes</p>
+                                        <p class="text-gray-700 text-base leading-snug">Dominio y aplicación de protocolos de seguridad avanzados para operaciones de elevación y manejo de cargas, garantizando entornos de trabajo seguros.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="icon-circle-large"></div> <!-- Empty circle -->
+                                    <div class="ml-3 flex-1">
+                                        <p class="font-semibold text-[#424242] text-lg">Gestión de Calidad y Seguridad (Normas ISO)</p>
+                                        <p class="text-gray-700 text-base leading-snug">Amplia experiencia en la implementación y auditoría de sistemas de gestión basados en las normas <em>ISO 9001</em> (Calidad), <em>ISO 18001</em> (Seguridad y Salud Ocupacional), <em>ISO 39001</em> (Seguridad Vial) y <em>ISO 45001</em> (Seguridad y Salud en el Trabajo), asegurando la excelencia operativa y el cumplimiento normativo.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="clients-section" class="relative z-10">
+                <div class="section-header text-center mb-14">
+                    <h3 class="text-3xl md:text-4xl font-bold">Clientes Destacados</h3>
+                    <p class="text-md text-gray-600 mt-2 max-w-2xl mx-auto">Colaboraciones con empresas líderes en diversos rubros, demostrando la amplitud de su impacto.</p>
+                </div>
+                <div class="organic-panel max-w-5xl mx-auto">
+                    <div class="client-bubble-container">
+                        <div class="client-bubble size-small industry-inmobiliario">
+                            <span class="client-bubble-name">Edificio Acqua</span>
+                            <span class="client-bubble-detail">Inmobiliario</span>
+                        </div>
+                        <div class="client-bubble size-large industry-turismo">
+                            <span class="client-bubble-name">Hotel Fasano</span>
+                            <span class="client-bubble-detail">Turismo</span>
+                        </div>
+                        <!-- Removed Norte Construcciones -->
+                        <div class="client-bubble size-medium industry-energia">
+                            <span class="client-bubble-name">P.E. La Banderita</span>
+                            <span class="client-bubble-detail">Energía Eólica - AR</span>
+                        </div>
+                        <div class="client-bubble size-small industry-construccion">
+                            <span class="client-bubble-name">Insaco Construcciones</span>
+                            <span class="client-bubble-detail">Construcción</span>
+                        </div>
+                        <div class="client-bubble size-large industry-servicios-publicos">
+                            <span class="client-bubble-name">UTE</span>
+                            <span class="client-bubble-detail">Servicios Públicos</span>
+                        </div>
+                        <div class="client-bubble size-medium industry-quimico">
+                            <span class="client-bubble-name">Tafirel</span>
+                            <span class="client-bubble-detail">Químico</span>
+                        </div>
+                        <div class="client-bubble size-large industry-industria">
+                            <span class="client-bubble-name">Industrial Serrana</span>
+                            <span class="client-bubble-detail">Industria</span>
+                        </div>
+                        <div class="client-bubble size-small industry-inmobiliario">
+                            <span class="client-bubble-name">Las Piedras Condominio</span>
+                            <span class="client-bubble-detail">Inmobiliario</span>
+                        </div>
+                        <div class="client-bubble size-medium industry-energia">
+                            <span class="client-bubble-name">Solstar</span>
+                            <span class="client-bubble-detail">Energía</span>
+                        </div>
+                        <div class="client-bubble size-medium industry-industria">
+                            <span class="client-bubble-name">Buresil</span>
+                            <span class="client-bubble-detail">Industria</span>
+                        </div>
+                        <div class="client-bubble size-medium industry-energia">
+                            <span class="client-bubble-name">P.E. Caracoles I&II</span>
+                            <span class="client-bubble-detail">Energía Eólica - UY</span>
+                        </div>
+                    </div>
+                    <p class="text-center text-gray-700 text-sm mt-6">La diversidad de clientes y sectores refleja la versatilidad y adaptabilidad de Susana en la aplicación de sus conocimientos en seguridad.</p>
+                </div>
+            </section>
+
+            <section id="human-aspect-section" class="relative z-10 human-section-highlight">
+                <div class="section-header text-center mb-14">
+                    <h3 class="text-3xl md:text-4xl font-bold">Lo Humano</h3>
+                    <p class="text-md text-gray-600 mt-2 max-w-2xl mx-auto">Más allá de sus impresionantes logros, Susana es un motor de inspiración y un ejemplo de integridad.</p>
+                </div>
+                <div class="human-section-bg max-w-5xl mx-auto text-center">
+                    <p class="text-gray-700 text-lg md:text-xl leading-relaxed font-medium">Susana no solo es una profesional brillante, sino también una persona con una <em>profunda empatía y un compromiso inquebrantable</em> con el bienestar. Su liderazgo se fundamenta en la capacidad de conectar con las personas, fomentar ambientes de trabajo seguros y saludables, y transmitir conocimiento con una claridad y calidez excepcionales. Es una líder que genera confianza, inspira colaboración y demuestra que la excelencia profesional puede ir de la mano con un corazón dedicado.</p>
+                </div>
+            </section>
+
+            <section id="authenticity-section" class="text-center py-8 relative z-10">
+                <div class="organic-panel max-w-4xl mx-auto">
+                    <h3 class="text-2xl font-bold text-[#424242] mb-5">Autenticidad y Respaldo Oficial</h3>
+                    <p class="text-gray-700 mt-3 leading-relaxed text-lg">Cada una de las titulaciones de Susana ha sido expedida por instituciones educativas oficiales en Uruguay, como la <em>Administración Nacional de Educación Pública (ANEP)</em> y el <em>Consejo de Educación Técnico Profesional (Universidad del Trabajo del Uruguay - UTU)</em>. Este respaldo garantiza la validez y el reconocimiento nacional de su extensa y profunda formación.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function wrapLabel(label, maxWidth) {
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += ' ' + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const competencyCtx = document.getElementById('competencyLevelChart').getContext('2d');
+        const rawLabels = ['Técnico Prevencionista en Seguridad Industrial', 'Ingeniero Tecnológico Prevencionista', 'Especialista en Seguridad Vial Organizacional']; /* Corrected label */
+        const processedLabels = rawLabels.map(label => wrapLabel(label, 18)); /* Adjusted for potentially longer lines */
+
+        new Chart(competencyCtx, {
+            type: 'line', /* Changed to line chart */
+            data: {
+                labels: processedLabels,
+                datasets: [{
+                    label: 'Nivel de Competencia',
+                    data: [1, 2, 3],
+                    backgroundColor: 'rgba(255, 152, 0, 0.4)', /* Orange with transparency for fill */
+                    borderColor: '#E65100', /* Deep Orange for the line */
+                    borderWidth: 3,
+                    fill: true, /* Fill the area below the line */
+                    tension: 0.4, /* Smooth curves */
+                    pointRadius: 8, /* Larger points */
+                    pointBackgroundColor: '#FF9800', /* Orange points */
+                    pointBorderColor: '#E65100', /* Deep Orange point border */
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                switch(value) {
+                                    case 1: return 'Básico';
+                                    case 2: return 'Avanzado';
+                                    case 3: return 'Especializado';
+                                    default: return '';
+                                }
+                            },
+                            stepSize: 1,
+                            color: '#343A40',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                         grid: {
+                            color: 'rgba(0,0,0,0.08)' /* Lighter grid lines */
+                        }
+                    },
+                    x: {
+                        ticks: {
+                           color: '#343A40'
+                        },
+                         grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(66, 66, 66, 0.9)', /* Dark Gray tooltip */
+                        titleFont: {
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 12,
+                        cornerRadius: 12, /* More rounded tooltip */
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            },
+                            label: function(context) {
+                                let level = context.parsed.y;
+                                let desc = '';
+                                 switch(level) {
+                                    case 1: desc = 'Nivel Básico de Competencia'; break;
+                                    case 2: desc = 'Nivel Avanzado de Competencia'; break;
+                                    case 3: desc = 'Nivel de Alta Especialización'; break;
+                                }
+                                return desc;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
